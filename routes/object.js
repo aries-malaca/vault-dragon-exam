@@ -19,8 +19,17 @@ router.get('/:mykey', function(req, res, next) {
   var timestampCondition = (query.timestamp !== undefined ? "AND timestamp <= " + query.timestamp : "");
   db.get("SELECT * FROM objects WHERE key='"+ req.params.mykey +"' " + timestampCondition + " ORDER BY timestamp DESC", function (err, row) {
       if(row !== undefined)
-        res.json(row);
-      else
+        res.json({
+          value: row.value
+        });
+      else{
+        if(timestampCondition === "")
+          res.status(404).send("Value not found for requested key.");
+        else
+          res.status(404).send("Value not found for requested key and timestamp.");
+      }
+        
+
         res.json(false); // key not found
   });
 
