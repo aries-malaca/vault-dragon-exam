@@ -28,9 +28,6 @@ router.get('/:mykey', function(req, res, next) {
         else
           res.status(404).send("Value not found for requested key and timestamp.");
       }
-        
-
-        res.json(false); // key not found
   });
 
   db.all("SELECT * FROM objects WHERE key='"+ req.params.mykey +"'", function (err, rows) {
